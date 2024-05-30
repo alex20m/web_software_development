@@ -12,10 +12,8 @@ const getFeedback = async (Id) => {
 
 const incrementCount = async (Id) => {
   let count = await getFeedback(`${Id}`);
-  console.log(count)
   count = parseFloat(count);
   count++;
-  console.log(count)
   await setFeedback(`${Id}`, count);
 };
 

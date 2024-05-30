@@ -8,7 +8,7 @@ feedback.setFeedback("3", 0);
 
 app.get("/feedbacks/:id", async (c) => {
     const count = await feedback.getFeedback(c.req.param("id"));
-    return await c.text(`Feedback: ${count}`);
+    return await c.text(`Feedback ${c.req.param("id")}: ${count}`);
 })
 
 app.post("/feedbacks/:id", async (c) => {
