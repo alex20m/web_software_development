@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Songs and durations!</title>
+    <title>Rate your experience</title>
   </head>
   <body>
-    <h1>Songs</h1>
-    <form method="post" action="/songs">
-      <label for="name">Song name:</label>
-      <input type="text" id="name" name="name" />
-      <br/>
-      <label for="duration">Song duration:</label>
-      <input type="number" id="duration" name="duration" />
-      <br/>
-      <input type="submit" value="Submit form" />
-    </form>
-    <table>
-      <tr>
-        <th>Song name</th>
-        <th>Duration (seconds)</th>
-      </tr>
-      <% it.songs.forEach((entry) => { %>
-        <tr>
-          <td><%= entry.name %></td>
-          <td><%= entry.duration %></td>
-        </tr>
-        <% }); %>
-    </table>
+    <h1>Rate your experience!</h1>
+    <p>How would you rate this experience?</p>
+      <% for (let i = 1; i <= 5; i++) { %>
+        <form method="post" action="/feedbacks/<%= i %>">
+          <% if (i === 1) { %>
+            <input type="submit" value="Poor" />
+          <% } else if (i === 2) { %>
+            <input type="submit" value="Fair" />
+          <% } else if (i === 3) { %>
+            <input type="submit" value="Good" />
+          <% } else if (i === 4) { %>
+            <input type="submit" value="Very good" />
+          <% } else if (i === 5) { %>
+            <input type="submit" value="Excellent" />
+          <% } %>
+          </form>
+        <% } %>
   </body>
 </html>
