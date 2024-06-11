@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Course</title>
+  </head>
+  <body>
+    <form method="POST" action="/courses/<%= it.courses.id %>">
+      <p>Course: <%= it.courses.name %></p>
+    </form>
+    <p><a href="/courses">Back to courses</a></p>
+      <p>How would you rate this experience?</p>
+        <% for (let i = 1; i <= 5; i++) { %>
+          <form method="post" action="/courses/<%= it.courses.id %>/feedbacks/<%= i %>">
+            <% if (i === 1) { %>
+              <input type="submit" value="Poor" />
+            <% } else if (i === 2) { %>
+              <input type="submit" value="Fair" />
+            <% } else if (i === 3) { %>
+              <input type="submit" value="Good" />
+            <% } else if (i === 4) { %>
+              <input type="submit" value="Very good" />
+            <% } else if (i === 5) { %>
+              <input type="submit" value="Excellent" />
+            <% } %>
+            </form>
+          <% } %>
+  </body>
+</html>
