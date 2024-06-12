@@ -1,5 +1,6 @@
 import { Eta } from "https://deno.land/x/eta@v3.4.0/src/index.ts";
 import * as courseService from "./courseService.js";
+import * as validation from "./validation.js";
 
 const eta = new Eta({ views: `${Deno.cwd()}/templates/` });
 
@@ -11,6 +12,16 @@ const showForm = async (c) => {
 
 const createCourse = async (c) => {
   const body = await c.req.parseBody();
+  const validationResult = validation.Validator.safeParse(body);
+  if (!validationResult.success) {
+    return c.html(
+      eta.render("courses.eta", {
+        ...body,
+        errors: validationResult.error.format(),
+        courses: await courseService.listCourses(),
+      }),
+    );
+  };
   await courseService.createCourse(body);
   return c.redirect("/courses");
 };
