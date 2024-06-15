@@ -5,11 +5,13 @@
   </head>
   <body>
 
+    <p>Add a course:</p>
+
     <%~ include("errors.eta", { field: "name", errors: it?.errors?.name?._errors }) %>
 
     <form method="post" action="/courses">
       <label for="name">Course name:</label>
-      <input type="text" id="name" name="name" value="<%= it?.name ?? '' %>" />
+      <input type="text" id="name" name="name" value="<%= it?.name ?? '' %>" /><br/>
       <input type="submit" value="Add" />
     </form>
     <p>Existing courses:</p>

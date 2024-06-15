@@ -1,6 +1,7 @@
 import { Eta } from "https://deno.land/x/eta@v3.4.0/src/index.ts";
 import * as courseService from "./courseService.js";
 import * as validation from "./validation.js";
+import * as cookies from "./cookies.js";
 
 const eta = new Eta({ views: `${Deno.cwd()}/templates/` });
 
@@ -29,7 +30,9 @@ const createCourse = async (c) => {
 const showCourse = async (c) => {
     const id = c.req.param("id");
     const course_data = await courseService.getCourse(id);
-    return c.html(eta.render("course.eta", { courses: course_data }),
+    const sessionId = c.req.sessionId;
+    const givenFeedback = cookies.hasGivenFeedback(sessionId, id);
+    return c.html(eta.render("course.eta", { courses: course_data, givenFeedback } ),
     );
   };
 
@@ -43,6 +46,8 @@ const showCourse = async (c) => {
   const storeFeedback = async (c) => {
     const id = c.req.param("id");
     const rating = c.req.param("rating");
+    const sessionId = c.req.sessionId;
+    await cookies.markFeedbackGiven(sessionId, id, rating);
     await courseService.storeFeedback(id, rating);
     return c.redirect(`/courses/${id}`);
   }

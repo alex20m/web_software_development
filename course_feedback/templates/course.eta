@@ -7,7 +7,8 @@
     <form method="POST" action="/courses/<%= it.courses.id %>">
       <p>Course: <%= it.courses.name %></p>
     </form>
-    <p><a href="/courses">Back to courses</a></p>
+
+    <% if(it.givenFeedback < 1) {%>
       <p>How would you rate this experience?</p>
         <% for (let i = 1; i <= 5; i++) { %>
           <form method="post" action="/courses/<%= it.courses.id %>/feedbacks/<%= i %>">
@@ -24,5 +25,10 @@
             <% } %>
             </form>
           <% } %>
+          
+        <% } else { %>
+        <p>You have already given feedback for this course. Thank you!</p>
+        <% } %>
+        <p><a href="/courses">Back to courses</a></p>
   </body>
 </html>
