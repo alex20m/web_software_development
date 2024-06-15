@@ -1,6 +1,5 @@
 const createBook = async (book) => {
   book.id = crypto.randomUUID();
-
   const kv = await Deno.openKv();
   await kv.set(["books", book.id], book);
 };
@@ -8,7 +7,6 @@ const createBook = async (book) => {
 const listBooks = async () => {
   const kv = await Deno.openKv();
   const bookEntries = await kv.list({ prefix: ["books"] });
-
   const books = [];
   for await (const entry of bookEntries) {
       books.push(entry.value);

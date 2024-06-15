@@ -1,7 +1,17 @@
 import { Eta } from "https://deno.land/x/eta@v3.4.0/src/index.ts";
 import * as bookService from "./bookService.js";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const eta = new Eta({ views: `${Deno.cwd()}/templates/` });
+
+const bookValidator = z.object({
+  name: z.string().min(3, { message: "The book name should be a string of at least 3 characters." }),
+  pages: z.coerce.number()
+    .min(1, { message: "The number of pages should be a number between 1 and 1000." })
+    .max(1000, { message: "The number of pages should be a number between 1 and 1000." }), 
+  ISBN: z.string()
+    .length(13, { message: "The ISBN should be a string of 13 characters." }),
+}); 
 
 const showForm = async (c) => {
   return c.html(
@@ -11,6 +21,16 @@ const showForm = async (c) => {
 
 const createBook = async (c) => {
   const body = await c.req.parseBody();
+  const validationResult = bookValidator.safeParse(body);
+  if (!validationResult.success) {
+    return c.html(
+      eta.render("books.eta", {
+        ...body,
+        errors: validationResult.error.format(),
+        books: await bookService.listBooks(),
+      }),
+    );
+  };
   await bookService.createBook(body);
   return c.redirect("/books");
 };

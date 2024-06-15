@@ -6,14 +6,13 @@
   <body>
     <form method="POST" action="/books/<%= it.book.id %>">
       <label for="book">Book name:</label>
-      <input type="text" id="book" name="book" value="<%= it.book.book %>" /><br/>
+      <input type="text" id="book" name="book" value="<%= it.book.name %>" /><br/>
       <label for="pages">Number of pages:</label>
       <input type="text" id="pages" name="pages" value="<%= it.book.pages %>" /><br/>
       <label for="ISBN">ISBN:</label>
       <input type="text" id="ISBN" name="ISBN" value="<%= it.book.ISBN %>" /><br/>
       <input type="submit" value="Update book" />
     </form>
-    
     <p><a href="/books">Back to books</a></p>
   </body>
 </html>
